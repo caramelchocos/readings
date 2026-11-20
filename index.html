@@ -293,12 +293,6 @@ details.hist{border-color:rgba(196,181,253,.2)}details.hist pre{background:rgba(
 .topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .topbar h1{margin-top:6px}
 .histbtn{min-height:36px;padding:6px 14px;font-size:13px;flex:none;background:rgba(165,180,252,.15);border:1px solid rgba(196,181,253,.45);color:#fff}
-.navwrap{position:relative;flex:none;margin-top:4px}
-.menubtn{min-height:40px;width:44px;padding:0;display:flex;align-items:center;justify-content:center;flex:none;background:rgba(165,180,252,.15);border:1px solid rgba(196,181,253,.45);color:#fff;border-radius:12px}
-.navmenu{position:absolute;top:calc(100% + 8px);right:0;z-index:70;min-width:208px;background:rgba(20,22,52,.96);border:1px solid rgba(196,181,253,.28);border-radius:16px;padding:6px;box-shadow:0 14px 34px rgba(2,6,23,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.navmenu[hidden]{display:none}
-.navitem{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:8px 12px;font-size:14px;font-weight:600;color:#fff;background:transparent;border:none;border-radius:10px;justify-content:flex-start;text-align:left}
-.navitem:hover{background:rgba(165,180,252,.15)}
 .hs{position:fixed;inset:0;z-index:60;background:rgba(2,6,23,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center}
 .hs[hidden]{display:none}
 .hs-card{width:100%;max-width:640px;max-height:82vh;overflow:auto;background:rgba(20,22,52,.92);border:1px solid rgba(196,181,253,.28);border-radius:24px 24px 0 0;padding:20px 16px calc(24px + env(safe-area-inset-bottom))}
@@ -310,7 +304,7 @@ details.hist{border-color:rgba(196,181,253,.2)}details.hist pre{background:rgba(
 </head>
 <body>
 <main>
-  <div class="topbar"><h1>Reading Prompt Builder</h1><div class="navwrap"><button class="menubtn" data-act="toggleNav" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><nav id="nav" class="navmenu" hidden><button class="navitem" data-act="openHist"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>Recent readings</button></nav></div></div>
+  <div class="topbar"><h1>Reading Prompt Builder</h1><button class="histbtn" data-act="openHist" aria-label="History"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>History</button></div>
   <p class="sub">Draw the cards, then copy a ready-made prompt into ChatGPT or Claude.</p>
   <div id="view"></div>
 </main>
@@ -349,8 +343,7 @@ const LSPREADS={
   single:{label:"Single card",pos:["The card"]},
   line3:{label:"3-card line",pos:["Card 1 (left)","Card 2 (center)","Card 3 (right)"],note:"Read as one sentence from left to right. The center card is the core of the message; the outer cards describe and modify it."},
   line5:{label:"5-card line",pos:["Card 1","Card 2","Card 3 (center)","Card 4","Card 5"],note:"Read left to right as a sentence. Card 3 is the focus; cards 1–2 lead into it and cards 4–5 show how it develops. Also pair the mirrored cards (1+5, 2+4)."},
-  box9:{label:"9-card box (3×3)",pos:["Top left","Top center","Top right","Middle left","Center","Middle right","Bottom left","Bottom center","Bottom right"],note:"9-card box (3×3), numbered left to right, top to bottom (1 2 3 / 4 5 6 / 7 8 9). Read in combination, never card by card; read each grouping below as one flowing message. (1) Time — columns: left (1,4,7) = past, center (2,5,8) = present, right (3,6,9) = future; give each column's theme. (2) Three layers — rows: top (1,2,3) = the conscious mind, middle (4,5,6) = outer / practical reality, bottom (7,8,9) = the subconscious; read what each layer reveals. (3) Cross — the center card (5) is the essence of the question; the cross (2,4,6,8) are four direct influences around it; the four corners (1,3,7,9) are background or hidden factors. Finally point out notable card combinations and the overall meaning of all 9 cards."},
-  rel15:{label:"Relationship · 15 cards (5×3)",pos:["Self 1/3 (how I show up in this relationship)","Self 2/3","Self 3/3","The other person 1/3 (how they show up)","The other person 2/3","The other person 3/3","Connection 1/3 (chemistry & how we interact)","Connection 2/3","Connection 3/3","Challenge & opportunity 1/3 (friction, and the possible turning point)","Challenge & opportunity 2/3","Challenge & opportunity 3/3","Direction 1/3 (where this is likely heading)","Direction 2/3","Direction 3/3"],note:"Relationship spread: 15 cards in 5 positions of 3 — Self, The other person, Connection, Challenge & opportunity, Direction — each row read left to right. Significators are for reference only and do not change the draw: Man = me, Woman = the other person; when either appears in the spread, read it as that person and note where it falls. For each position, read its 3 cards together as one phrase and link neighbours (1+2, 2+3). First read Self and The other person as they are now, then Connection for how the two interact, then Challenge & opportunity for the friction and the turning point, then Direction for how the relationship develops. Finally weave all five positions into one connected message."},
+  box9:{label:"9-card box (3×3)",pos:["Top left","Top center","Top right","Middle left","Center","Middle right","Bottom left","Bottom center","Bottom right"],note:"The center card is the heart of the matter. Left column = past, middle column = present, right column = future. Top row = what is conscious or visible, bottom row = what is hidden or foundational. Also read the corners and diagonals."},
   gt:{label:"Grand Tableau (8×4 + 4)",pos:LEN.map((c,i)=>"Position "+(i+1)+" (House of the "+c.name+")")}
 };
 const STYLES={
@@ -358,12 +351,6 @@ const STYLES={
   direct:"direct and honest; do not sugarcoat",
   practical:"practical and specific, focused on concrete actions",
   psych:"psychological and reflective, connecting the symbols to inner patterns and motivations"
-};
-const LANGS={
-  "zh-Hant":["繁體中文","請全程以繁體中文回覆。"],
-  "en":["English","Reply in English."],
-  "zh-Hans":["简体中文","请全程以简体中文回复。"],
-  "ja":["日本語","回答はすべて日本語でお願いします。"]
 };
 // Card back star
 (function(){const svg="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='none' stroke='#c4b5fd' stroke-width='2.5' opacity='.8'/><path d='M50 18 L56 44 L82 50 L56 56 L50 82 L44 56 L18 50 L44 44Z' fill='#e9e3f7'/></svg>";document.documentElement.style.setProperty("--star",`url("data:image/svg+xml,${encodeURIComponent(svg)}")`)})();
@@ -374,7 +361,7 @@ function fy(arr){for(let i=arr.length-1;i>0;i--){const j=rint(i+1);[arr[i],arr[j
 function splitDeck(deck,n){const L=deck.length,b=[0];for(let k=1;k<n;k++){const base=Math.round(L*k/n);b.push(base+rint(Math.floor(L/8)+1)-Math.floor(L/16))}b.push(L);const p=[];for(let k=0;k<n;k++)p.push(deck.slice(b[k],b[k+1]));return p}
 
 // ---------- State ----------
-const S={view:"home",question:"",notes:"",style:"gentle",detail:"detailed",lang:"zh-Hant",draws:[],cur:null};
+const S={view:"home",question:"",notes:"",style:"gentle",detail:"detailed",draws:[],cur:null};
 let uid=1;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const getDraw=id=>S.draws.find(d=>d.id===+id);
@@ -444,7 +431,6 @@ function viewResult(){
   h+=`<div class="panel"><button class="primary big" style="margin-top:0" data-act="copy" id="copyBtn">Copy prompt</button>
   <div class="row" style="margin-top:10px;justify-content:center"><a class="btn" id="gptLink" href="https://chatgpt.com/" target="_blank" rel="noopener">Open ChatGPT</a><a class="btn" id="claudeLink" href="https://claude.ai/new" target="_blank" rel="noopener">Open Claude</a></div>
   <p class="hint" style="text-align:center">If the prompt doesn't appear in the chat, paste what you copied.</p>
-  <label>Reply language</label><select data-in="lang">${Object.entries(LANGS).map(([k,[name]])=>`<option value="${k}"${k===S.lang?" selected":""}>${esc(name)}</option>`).join("")}</select>
   <details class="popts"><summary>Prompt options &amp; preview</summary>
   <div class="row split"><div><label>Reading style</label><select data-in="style">${Object.entries({gentle:"Gentle & supportive",direct:"Direct & honest",practical:"Practical & action-focused",psych:"Psychological & reflective"}).map(([k,v])=>`<option value="${k}"${k===S.style?" selected":""}>${esc(v)}</option>`).join("")}</select></div>
   <div><label>Length</label><select data-in="detail">${[["detailed","Detailed"],["concise","Concise"]].map(([k,v])=>`<option value="${k}"${k===S.detail?" selected":""}>${v}</option>`).join("")}</select></div></div>
@@ -738,7 +724,7 @@ function buildPrompt(){
   if(done.length>1)L.push("- Several draws were made. Read each on its own first, then give a synthesis: where they agree, where they differ, and the combined message.");
   L.push("- Answer the question directly. If the draw does not support a clear yes or no, say so instead of forcing one.");
   L.push("- Avoid fatalistic predictions. Frame challenges together with what I can do about them.");
-  L.push("","FORMAT","1. Short answer (2–3 sentences)","2. Position-by-position reading","3. Synthesis"+(done.length>1?" across all draws":""),"4. Practical advice: 2–3 concrete next steps","",(LANGS[S.lang]&&LANGS[S.lang][1])||"Reply in English.");
+  L.push("","FORMAT","1. Short answer (2–3 sentences)","2. Position-by-position reading","3. Synthesis"+(done.length>1?" across all draws":""),"4. Practical advice: 2–3 concrete next steps","","Reply in English.");
   return L.join("\n");
 }
 function updatePrompt(){
@@ -772,9 +758,6 @@ async function copyText(text){
 }
 
 document.addEventListener("click",e=>{if(e.target.id==="hs"){e.target.hidden=true;document.body.style.overflow=""}});
-function closeNav(){const nv=$id("nav");if(nv&&!nv.hidden){nv.hidden=true;const mb=document.querySelector(".menubtn");if(mb)mb.setAttribute("aria-expanded","false")}}
-document.addEventListener("click",e=>{const nv=$id("nav");if(nv&&!nv.hidden&&!e.target.closest(".navwrap"))closeNav()});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeNav()});
 // ---------- Main page events ----------
 document.addEventListener("click",async e=>{
   const b=e.target.closest("[data-act]");if(!b)return;
@@ -790,8 +773,7 @@ document.addEventListener("click",async e=>{
     case "followup":S.view="home";top=true;break;
     case "reset":S.draws=[];S.question="";S.notes="";S.cur=null;S.view="home";top=true;break;
     case "copy":{const p=buildPrompt();if(!p)return;const ok=await copyText(p);toast(ok?"Prompt copied":"Copy failed. Open the preview and copy it manually");if(ok)saveHist(p);return}
-    case "toggleNav":{const nv=$id("nav"),open=nv.hidden;nv.hidden=!open;b.setAttribute("aria-expanded",open?"true":"false");return}
-    case "openHist":closeNav();renderHist();$id("hs").hidden=false;document.body.style.overflow="hidden";return;
+    case "openHist":renderHist();$id("hs").hidden=false;document.body.style.overflow="hidden";return;
     case "closeHist":$id("hs").hidden=true;document.body.style.overflow="";return;
     case "copyHist":{const h=loadHist()[+b.dataset.i];if(h){const ok=await copyText(h.p);toast(ok?"Copied":"Copy failed")}return}
     default:return;
